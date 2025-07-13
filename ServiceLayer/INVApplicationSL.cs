@@ -79,14 +79,16 @@ namespace InventoryManagement.ServiceLayer
         public async Task<ReadInformationResponse> SubCatCReadInformation()
         {
 
-            return await _invApplicationRL.SubCatCReadInformation();
+            return await _invApplicationRL.SubCatCReadInformation(); 
+        }
 
-            public async Task<ReadInformationResponse> SubCatInformation()
+        public async Task<ReadInformationResponse> SubCatInformation()
         {
 
             return await _invApplicationRL.SubCatInformation();
+        }
 
-            public async Task<ReadInformationResponse> SupplierReadInformation()
+        public async Task<ReadInformationResponse> SupplierReadInformation()
         {
 
             return await _invApplicationRL.SupplierReadInformation();
@@ -155,6 +157,34 @@ namespace InventoryManagement.ServiceLayer
         {
 
             return await _invApplicationRL.SubCatSearchInformationByCat(request);
+
+        }
+
+
+
+
+        public async Task<DeleteInformationResponse> IItemDeleteInfo(DeleteInformationRequest request)
+        {
+
+            return await _invApplicationRL.IItemDeleteInfo(request);
+
+        }
+        public async Task<DeleteInformationResponse> SupplierDeleteInfo(DeleteInformationRequest request)
+        {
+
+            return await _invApplicationRL.SupplierDeleteInfo(request);
+
+        }
+        public async Task<DeleteInformationResponse> ItemCatDeleteInfo(DeleteInformationRequest request)
+        {
+
+            return await _invApplicationRL.ItemCatDeleteInfo(request);
+
+        }
+        public async Task<DeleteInformationResponse> SubCatDeleteInfo(DeleteInformationRequest request)
+        {
+
+            return await _invApplicationRL.SubCatDeleteInfo(request);
 
         }
 

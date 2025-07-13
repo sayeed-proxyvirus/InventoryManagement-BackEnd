@@ -15,6 +15,15 @@ namespace InventoryManagement.ServiceLayer
 
 
 
+        public Task<DeleteInformationResponse> IItemDeleteInfo(DeleteInformationRequest request);
+        public Task<DeleteInformationResponse> SupplierDeleteInfo(DeleteInformationRequest request);
+        public Task<DeleteInformationResponse> ItemCatDeleteInfo(DeleteInformationRequest request);
+        public Task<DeleteInformationResponse> SubCatDeleteInfo(DeleteInformationRequest request);
+
+
+
+
+
         public Task<ReadInformationResponse> ItemReadInformation();
         public Task<ReadInformationResponse> ICReadInformation();
         public Task<ReadInformationResponse> SupCReadInformation();
