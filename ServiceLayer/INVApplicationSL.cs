@@ -1,0 +1,162 @@
+﻿using InventoryManagement.RepositoryLayer;
+using InventoryManagement.CommonLayer.Models;
+using Azure.Core;
+
+namespace InventoryManagement.ServiceLayer
+{
+    public class INVApplicationSL : IINVApplicationSL
+    {
+        public readonly IINVApplicationRL _invApplicationRL;
+        public INVApplicationSL(IINVApplicationRL invApplicationRL)
+        {
+            _invApplicationRL = invApplicationRL;
+        }
+
+        public async Task<LoginResponse> Login(LoginRequest request)
+        {
+            return await _invApplicationRL.Login(request);
+        }
+        public async Task<RegisterResponse> Register(RegisterRequest request)
+        {
+            return await _invApplicationRL.Register(request);
+        }
+
+
+
+
+        public async Task<CreateInformationResponse> CreateInformation(IItemCreateInformationRequest request)
+        {
+
+            return await _invApplicationRL.CreateInformation(request);
+
+        }
+        public async Task<CreateInformationResponse> CreateInformation(SupplierInfoCreateInformationRequest request)
+        {
+
+            return await _invApplicationRL.CreateInformation(request);
+
+        }
+        public async Task<CreateInformationResponse> CreateInformation(ItemCatCreateInfoCreateInformationRequest request)
+        {
+
+            return await _invApplicationRL.CreateInformation(request);
+
+        }
+        public async Task<CreateInformationResponse> CreateInformation(SubCatCreateInfoCreateInformationRequest request)
+        {
+
+            return await _invApplicationRL.CreateInformation(request);
+
+        }
+
+
+
+
+        public async Task<ReadInformationResponse> ItemReadInformation()
+        {
+
+            return await _invApplicationRL.ItemReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> ICReadInformation()
+        {
+
+            return await _invApplicationRL.ICReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> SupCReadInformation()
+        {
+
+            return await _invApplicationRL.SupCReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> ItemCatCReadInformation()
+        {
+
+            return await _invApplicationRL.ItemCatCReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> SubCatCReadInformation()
+        {
+
+            return await _invApplicationRL.SubCatCReadInformation();
+
+            public async Task<ReadInformationResponse> SubCatInformation()
+        {
+
+            return await _invApplicationRL.SubCatInformation();
+
+            public async Task<ReadInformationResponse> SupplierReadInformation()
+        {
+
+            return await _invApplicationRL.SupplierReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> ItemCatInformation()
+        {
+
+            return await _invApplicationRL.ItemCatInformation();
+
+        }
+
+
+
+
+
+        public async Task<UpdateInformationResponse> UpdateInformation(ItemUpdateInformationRequest request)
+        {
+
+            return await _invApplicationRL.UpdateInformation(request);
+
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(SupplierUpdateInformationRequest request)
+        {
+
+            return await _invApplicationRL.UpdateInformation(request);
+
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(ItemCatUpdateInformationRequest request)
+        {
+
+            return await _invApplicationRL.UpdateInformation(request);
+
+        }
+
+        public async Task<UpdateInformationResponse> UpdateInformation(SubCatUpdateInformationRequest request)
+        {
+
+            return await _invApplicationRL.UpdateInformation(request);
+
+        }
+
+
+
+
+        public async Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request)
+        {
+
+            return await _invApplicationRL.ItemSearchInformationByName(request);
+
+        }
+        public async Task<SearchInformationByNameResponse> SupplierSearchInformationByName(SearchInformationByNameRequest request)
+        {
+
+            return await _invApplicationRL.SupplierSearchInformationByName(request);
+
+        }
+        public async Task<SearchInformationByNameResponse> ItemCatSearchInformationByName(SearchInformationByNameRequest request)
+        {
+
+            return await _invApplicationRL.ItemCatSearchInformationByName(request);
+
+        }
+
+        public async Task<SearchInformationByNameResponse> SubCatSearchInformationByCat(SearchInformationByNameRequest request)
+        {
+
+            return await _invApplicationRL.SubCatSearchInformationByCat(request);
+
+        }
+
+    }
+}
