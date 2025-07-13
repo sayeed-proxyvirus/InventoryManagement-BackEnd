@@ -185,10 +185,6 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.Parameters.AddWithValue("@ContactNumber", request.ContactNumber);
                         sqlCommand.Parameters.AddWithValue("@Email", request.Email);
                         sqlCommand.Parameters.AddWithValue("@Address", request.Address);
-                        
-
-
-
                         //await _mySqlConnection.OpenAsync();
                         await _sqlConnection.OpenAsync();
                         int Status = await sqlCommand.ExecuteNonQueryAsync();
@@ -750,6 +746,206 @@ namespace InventoryManagement.RepositoryLayer
             return response;
         }
 
+
+
+
+        public async Task<UpdateInformationResponse> UpdateInformation(ItemUpdateInformationRequest request)
+        {
+            UpdateInformationResponse resposne = new UpdateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_EditItem";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
+                        sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
+                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
+                        sqlCommand.Parameters.AddWithValue("@SubCatname", request.SubCatname);
+                        sqlCommand.Parameters.AddWithValue("@OpeningStock", request.OpeningStock);
+                        sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
+                        sqlCommand.Parameters.AddWithValue("@ReorderStock", request.ReorderStock);
+                        sqlCommand.Parameters.AddWithValue("@MaxStock", request.MaxStock);
+                        sqlCommand.Parameters.AddWithValue("@LastPurRate", request.LastPurRate);
+                        sqlCommand.Parameters.AddWithValue("@LastPurDate", request.LastPurDate);
+                        sqlCommand.Parameters.AddWithValue("@PrefAlt", request.PrefAlt);
+                        sqlCommand.Parameters.AddWithValue("@Amount", request.Amount);
+                        sqlCommand.Parameters.AddWithValue("@HScode", request.HScode);
+                        sqlCommand.Parameters.AddWithValue("@IsActive", request.IsActive);
+                        sqlCommand.Parameters.AddWithValue("@CreatedAT", request.CreatedAT);
+                        sqlCommand.Parameters.AddWithValue("@ExpiryDate", request.ExpiryDate);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "Information Not Update";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(SupplierUpdateInformationRequest request)
+        {
+            UpdateInformationResponse resposne = new UpdateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_EditSupplier";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.SupplierID);
+                        sqlCommand.Parameters.AddWithValue("@SupplierName", request.SupplierName);
+                        sqlCommand.Parameters.AddWithValue("@ContactNumber", request.ContactNumber);
+                        sqlCommand.Parameters.AddWithValue("@Email", request.Email);
+                        sqlCommand.Parameters.AddWithValue("@Address", request.Address);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "Information Not Update";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(ItemCatUpdateInformationRequest request)
+        {
+            UpdateInformationResponse resposne = new UpdateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_EditSubCat";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@CategoryID", request.CategoryID);
+                        sqlCommand.Parameters.AddWithValue("@CategoryName", request.CategoryName);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "Information Not Update";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(SubCatUpdateInformationRequest request)
+        {
+            UpdateInformationResponse resposne = new UpdateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_EditSubCat";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@CategoryName", request.CategoryName);
+                        sqlCommand.Parameters.AddWithValue("@SubCatName", request.SubCatName);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "Information Not Update";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        
 
 
     }
