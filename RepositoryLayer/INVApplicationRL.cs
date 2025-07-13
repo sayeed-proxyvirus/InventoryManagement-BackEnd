@@ -1246,8 +1246,5 @@ namespace InventoryManagement.RepositoryLayer
 
 
 
-
-
-
     }
 }
