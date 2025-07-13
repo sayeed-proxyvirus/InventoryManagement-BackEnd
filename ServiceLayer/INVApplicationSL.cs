@@ -134,24 +134,13 @@ namespace InventoryManagement.ServiceLayer
 
 
 
-        //public async Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request)
-        //{
+        public async Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request)
+        {
 
-        //    return await _invApplicationRL.ItemSearchInformationByName(request);
+            return await _invApplicationRL.ItemSearchInformationByName(request);
 
-        //}
-        //public async Task<SearchInformationByNameResponse> SupplierSearchInformationByName(SearchInformationByNameRequest request)
-        //{
+        }
 
-        //    return await _invApplicationRL.SupplierSearchInformationByName(request);
-
-        //}
-        //public async Task<SearchInformationByNameResponse> ItemCatSearchInformationByName(SearchInformationByNameRequest request)
-        //{
-
-        //    return await _invApplicationRL.ItemCatSearchInformationByName(request);
-
-        //}
 
         public async Task<SearchInformationByNameResponse> SubCatSearchInformationByCat(SearchInformationByNameRequest request)
         {

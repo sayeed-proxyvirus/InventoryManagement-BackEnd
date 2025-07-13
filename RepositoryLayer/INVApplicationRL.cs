@@ -1189,6 +1189,60 @@ namespace InventoryManagement.RepositoryLayer
 
             return response;
         }
+        public async Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request)
+        {
+            SearchInformationByNameResponse response = new SearchInformationByNameResponse();
+            response.itemsearchInformationByName = new List<ItemSearchInformationByName>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewItembySubCat";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    sqlCommand.Parameters.AddWithValue("@SubCatName", request.Name);
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                ItemSearchInformationByName getResponse = new ItemSearchInformationByName();
+                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
+                                getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
+
+                                response.itemsearchInformationByName.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
 
 
 
