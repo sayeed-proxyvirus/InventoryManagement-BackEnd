@@ -8,6 +8,10 @@
         public List<SupplierReadInformation> supplierreadinformation { get; set; }
         public List<ItemCatInformation> itemcatreadinformation { get; set; }
         public List<SubCatInformation> subcatreadinformation { get; set; }
+        public List<ICReadInformation> icreadinformation { get; set; }
+        public List<SupCReadInformation> supcreadinformation { get; set; }
+        public List<ItemCatCReadInformation> itemcatcreadinformation { get; set; }
+        public List<SubCatCReadInformation> subcatcreadinformation { get; set; }
     }
 
 
