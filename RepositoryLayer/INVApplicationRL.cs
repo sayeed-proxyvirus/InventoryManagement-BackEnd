@@ -1133,7 +1133,62 @@ namespace InventoryManagement.RepositoryLayer
 
 
 
+        public async Task<SearchInformationByNameResponse> SubCatSearchInformationByCat(SearchInformationByNameRequest request)
+        {
+            SearchInformationByNameResponse response = new SearchInformationByNameResponse();
+            response.subcatsearchinformationByCat = new List<SubCatSearchInformationByCat>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewSubCatbyCat";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    sqlCommand.Parameters.AddWithValue("@CategoryName", request.Name);
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                SubCatSearchInformationByCat getResponse = new SubCatSearchInformationByCat();
+                                ///getResponse.Id = _sqlDataReader["Id"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Id"]) : 0;
+                                getResponse.SubCatID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
+                                //getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
 
+                                response.subcatsearchinformationByCat.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
 
 
 

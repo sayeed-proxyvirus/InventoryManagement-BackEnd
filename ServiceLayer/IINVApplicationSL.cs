@@ -42,9 +42,9 @@ namespace InventoryManagement.ServiceLayer
 
 
 
-        public Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request);
-        public Task<SearchInformationByNameResponse> SupplierSearchInformationByName(SearchInformationByNameRequest request);
-        public Task<SearchInformationByNameResponse> ItemCatSearchInformationByName(SearchInformationByNameRequest request);
+        //public Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request);
+        //public Task<SearchInformationByNameResponse> SupplierSearchInformationByName(SearchInformationByNameRequest request);
+        //public Task<SearchInformationByNameResponse> ItemCatSearchInformationByName(SearchInformationByNameRequest request);
         public Task<SearchInformationByNameResponse> SubCatSearchInformationByCat(SearchInformationByNameRequest request);
 
 
