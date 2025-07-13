@@ -945,7 +945,194 @@ namespace InventoryManagement.RepositoryLayer
 
             return resposne;
         }
-        
+
+
+
+
+        public async Task<DeleteInformationResponse> IItemDeleteInfo(DeleteInformationRequest request)
+        {
+            DeleteInformationResponse resposne = new DeleteInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_deleteItem";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        //sqlCommand.Parameters.AddWithValue("?UserId", request.UserId);
+                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.Id);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "UnSuccessful";
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<DeleteInformationResponse> SupplierDeleteInfo(DeleteInformationRequest request)
+        {
+            DeleteInformationResponse resposne = new DeleteInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_deleteSupplier";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        //sqlCommand.Parameters.AddWithValue("?UserId", request.UserId);
+                        sqlCommand.Parameters.AddWithValue("@SupplierID", request.Id);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "UnSuccessful";
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<DeleteInformationResponse> ItemCatDeleteInfo(DeleteInformationRequest request)
+        {
+            DeleteInformationResponse resposne = new DeleteInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_deleteItemCat";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        //sqlCommand.Parameters.AddWithValue("?UserId", request.UserId);
+                        sqlCommand.Parameters.AddWithValue("@CategoryID", request.Id);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "UnSuccessful";
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<DeleteInformationResponse> SubCatDeleteInfo(DeleteInformationRequest request)
+        {
+            DeleteInformationResponse resposne = new DeleteInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_deleteSubCat";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        //sqlCommand.Parameters.AddWithValue("?UserId", request.UserId);
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.Id);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "UnSuccessful";
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+
+
+
+
 
 
     }
