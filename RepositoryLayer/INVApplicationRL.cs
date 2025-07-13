@@ -379,6 +379,168 @@ namespace InventoryManagement.RepositoryLayer
 
             return response;
         }
+        public async Task<ReadInformationResponse> SupplierReadInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.supplierreadinformation = new List<SupplierReadInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewSupplier";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                SupplierReadInformation getResponse = new SupplierReadInformation();
+                                getResponse.SupplierID = _sqlDataReader["SupplierID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SupplierID"]) : 0;
+                                getResponse.SupplierName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["SupplierName"].ToString() : string.Empty;
+                                getResponse.ContactNumber = _sqlDataReader["ContactNumber"] != DBNull.Value ? _sqlDataReader["Email"].ToString() : string.Empty;
+                                getResponse.Email = _sqlDataReader["CatName"] != DBNull.Value ? _sqlDataReader["CatName"].ToString() : string.Empty;
+                                getResponse.Address = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["Address"].ToString() : string.Empty;
+                                response.supplierreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+        public async Task<ReadInformationResponse> ItemCatInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.itemcatreadinformation = new List<ItemCatInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewItemCat";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                ItemCatInformation getResponse = new ItemCatInformation();
+                                getResponse.CategoryID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CategoryID"]) : 0;
+                                getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                response.itemcatreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+        public async Task<ReadInformationResponse> SubCatInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.subcatreadinformation = new List<SubCatInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewSubCat";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                SubCatInformation getResponse = new SubCatInformation();
+                                getResponse.SubCatID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
+                                getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
+                                response.subcatreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+
+
         public async Task<ReadInformationResponse> ICReadInformation()
         {
             ReadInformationResponse response = new ReadInformationResponse();
