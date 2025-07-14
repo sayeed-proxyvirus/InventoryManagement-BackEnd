@@ -4,8 +4,8 @@
     {
         public int ItemCode { get; set; }
         public string ItemName { get; set; }
-        public string CatName { get; set; }
-        public string SubCatname { get; set; }
+        public int CatID { get; set; }
+        public int SubCatID { get; set; }
         public string Unit { get; set; }
 
         public int OpeningStock { get; set; }

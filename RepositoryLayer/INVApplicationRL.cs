@@ -17,7 +17,7 @@ namespace InventoryManagement.RepositoryLayer
         public INVApplicationRL(IConfiguration configuration)
         {
             _configuration = configuration;
-            _sqlConnection = new SqlConnection(_configuration["ConnectionStrings:SqlServerDBConnection"]);
+            _sqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION"));
             //_mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
 
@@ -120,8 +120,9 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
-                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
-                        sqlCommand.Parameters.AddWithValue("@SubCatname", request.SubCatname);
+                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@Unit", request.Unit);
                         sqlCommand.Parameters.AddWithValue("@OpeningStock", request.OpeningStock);
                         sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
                         sqlCommand.Parameters.AddWithValue("@ReorderStock", request.ReorderStock);
@@ -180,7 +181,7 @@ namespace InventoryManagement.RepositoryLayer
                     {
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
-                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.SupplierID);
+                        sqlCommand.Parameters.AddWithValue("@SupplierID", request.SupplierID);
                         sqlCommand.Parameters.AddWithValue("@SupplierName", request.SupplierName);
                         sqlCommand.Parameters.AddWithValue("@ContactNumber", request.ContactNumber);
                         sqlCommand.Parameters.AddWithValue("@Email", request.Email);
@@ -268,7 +269,7 @@ namespace InventoryManagement.RepositoryLayer
                 //if (_mySqlConnection != null)
                 if (_sqlConnection != null)
                 {
-                    string StoreProcedure = "usp_addItemCat";
+                    string StoreProcedure = "usp_addItemSubCat";
                     //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.CreateInformationQuery, _mySqlConnection))
                     using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
                     {
@@ -819,8 +820,7 @@ namespace InventoryManagement.RepositoryLayer
                     //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
                     using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
                     {
-                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.SupplierID);
@@ -863,12 +863,11 @@ namespace InventoryManagement.RepositoryLayer
             {
                 if (_sqlConnection != null)
                 {
-                    string StoreProcedure = "usp_EditSubCat";
+                    string StoreProcedure = "usp_EditItemCat";
                     //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
                     using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
                     {
-                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@CategoryID", request.CategoryID);
@@ -912,8 +911,7 @@ namespace InventoryManagement.RepositoryLayer
                     //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
                     using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
                     {
-                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                       
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
@@ -1160,7 +1158,7 @@ namespace InventoryManagement.RepositoryLayer
                             {
                                 SubCatSearchInformationByCat getResponse = new SubCatSearchInformationByCat();
                                 ///getResponse.Id = _sqlDataReader["Id"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Id"]) : 0;
-                                getResponse.SubCatID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
+                                getResponse.SubCatID = _sqlDataReader["SubCatID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
                                 //getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
                                 getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
 
