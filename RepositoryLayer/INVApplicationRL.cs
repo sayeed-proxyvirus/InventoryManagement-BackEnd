@@ -17,7 +17,7 @@ namespace InventoryManagement.RepositoryLayer
         public INVApplicationRL(IConfiguration configuration)
         {
             _configuration = configuration;
-            _sqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("DB_CONNECTION"));
+            _sqlConnection = new SqlConnection(_configuration["ConnectionStrings:SqlServerDBConnection"]);
             //_mySqlConnection = new MySqlConnection(_configuration["ConnectionStrings:MySqlDBConnection"]);
         }
 
@@ -30,15 +30,16 @@ namespace InventoryManagement.RepositoryLayer
                 using (SqlCommand sqlCommand = new SqlCommand("usp_login", _sqlConnection))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
+                    //sqlCommand.CommandTimeout = ConnectionTimeOut;
                     sqlCommand.Parameters.AddWithValue("@UserName", request.UserName);
 
                     await _sqlConnection.OpenAsync();
 
-                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                     {
-                        if (await _sqlDataReader.ReadAsync())
+                        if (await sqlDataReader.ReadAsync())
                         {
-                            string storedHashedPassword = _sqlDataReader["Upassword"].ToString();
+                            string storedHashedPassword = sqlDataReader["Upassword"].ToString();
 
                             if (BCrypt.Net.BCrypt.Verify(request.Password, storedHashedPassword))
                             {
@@ -74,11 +75,11 @@ namespace InventoryManagement.RepositoryLayer
                 using (SqlCommand sqlCommand = new SqlCommand("usp_register", _sqlConnection))
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
                     sqlCommand.Parameters.AddWithValue("@UserName", request.UserName);
                     sqlCommand.Parameters.AddWithValue("@HashedPassword", hashedPassword);
                     sqlCommand.Parameters.AddWithValue("@FullName", request.FullName);
                     sqlCommand.Parameters.AddWithValue("@Email", request.Email);
-
 
                     await _sqlConnection.OpenAsync();
                     await sqlCommand.ExecuteNonQueryAsync();
@@ -99,7 +100,6 @@ namespace InventoryManagement.RepositoryLayer
 
             return response;
         }
-
 
 
         public async Task<CreateInformationResponse> CreateInformation(IItemCreateInformationRequest request) 

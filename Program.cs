@@ -15,7 +15,6 @@ namespace InventoryManagement
     {
         public static void Main(string[] args)
         {
-            Env.Load();
             CreateHostBuilder(args).Build().Run();
         }
 
