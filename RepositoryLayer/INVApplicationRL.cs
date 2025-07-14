@@ -122,21 +122,128 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
                         sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
                         sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
-                        sqlCommand.Parameters.AddWithValue("@Unit", request.Unit);
+                        
                         sqlCommand.Parameters.AddWithValue("@OpeningStock", request.OpeningStock);
-                        sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
+                        
                         sqlCommand.Parameters.AddWithValue("@ReorderStock", request.ReorderStock);
                         sqlCommand.Parameters.AddWithValue("@MaxStock", request.MaxStock);
-                        sqlCommand.Parameters.AddWithValue("@LastPurRate", request.LastPurRate);
-                        sqlCommand.Parameters.AddWithValue("@LastPurDate", request.LastPurDate);
                         sqlCommand.Parameters.AddWithValue("@PrefAlt", request.PrefAlt);
-                        sqlCommand.Parameters.AddWithValue("@Amount", request.Amount);
                         sqlCommand.Parameters.AddWithValue("@HScode", request.HScode);
                         sqlCommand.Parameters.AddWithValue("@IsActive", request.IsActive);
                         sqlCommand.Parameters.AddWithValue("@CreatedAT", request.CreatedAT);
-                        sqlCommand.Parameters.AddWithValue("@ExpiryDate", request.ExpiryDate);
                         
 
+
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "CreateInformation Not Executed";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<CreateInformationResponse> CreateInformation(ItemTransCreateInformationRequest request)
+        {
+            CreateInformationResponse resposne = new CreateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                //if (_mySqlConnection != null)
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_addItemTrans";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.CreateInformationQuery, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
+                        sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
+                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@Unit", request.Unit);
+                        
+                        sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
+                        
+                        
+                        sqlCommand.Parameters.AddWithValue("@LastPurRate", request.LastPurRate);
+                        sqlCommand.Parameters.AddWithValue("@LastPurDate", request.LastPurDate);
+                        sqlCommand.Parameters.AddWithValue("@EntryGoDown", request.EntryGoDown);
+                        sqlCommand.Parameters.AddWithValue("@Amount", request.Amount);
+
+                        sqlCommand.Parameters.AddWithValue("@OrderRecDate", request.OrderRecDate);
+                        sqlCommand.Parameters.AddWithValue("@OrderIssueDate", request.OrderIssueDate);
+                        sqlCommand.Parameters.AddWithValue("@ExpiryDate", request.ExpiryDate);
+
+
+
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "CreateInformation Not Executed";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<CreateInformationResponse> CreateInformation(GDCreateInformationRequest request)
+        {
+            CreateInformationResponse resposne = new CreateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                //if (_mySqlConnection != null)
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_addGD";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.CreateInformationQuery, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@GDID", request.GDID);
+                        sqlCommand.Parameters.AddWithValue("@GDName", request.GDName);
+                        sqlCommand.Parameters.AddWithValue("@GDPhone", request.GDPhone);
+                        sqlCommand.Parameters.AddWithValue("@GDAddress", request.GDAddress);
 
                         //await _mySqlConnection.OpenAsync();
                         await _sqlConnection.OpenAsync();
@@ -337,21 +444,143 @@ namespace InventoryManagement.RepositoryLayer
                                 getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
                                 getResponse.HScode = _sqlDataReader["HScode"] != DBNull.Value ? _sqlDataReader["HScode"].ToString() : string.Empty;
-                                getResponse.CatName = _sqlDataReader["CatName"] != DBNull.Value ? _sqlDataReader["CatName"].ToString() : string.Empty;
-                                getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
-                                getResponse.LastPurDate = _sqlDataReader["LastPurDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["LastPurDate"]));
+                                getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["CategorySub"] != DBNull.Value ? _sqlDataReader["CategorySub"].ToString() : string.Empty;
+                                //getResponse.LastPurDate = _sqlDataReader["LastPurDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["LastPurDate"]));
                                 getResponse.Unit = _sqlDataReader["Unit"] != DBNull.Value ? _sqlDataReader["Unit"].ToString() : string.Empty;
                                 getResponse.PrefAlt = _sqlDataReader["PrefAlt"] != DBNull.Value ? _sqlDataReader["PrefAlt"].ToString() : string.Empty;
                                 getResponse.OpeningStock = _sqlDataReader["OpeningStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["OpeningStock"]) : 0;
-                                getResponse.CurrentStock = _sqlDataReader["CurrentStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CurrentStock"]) : 0;
+                                //getResponse.CurrentStock = _sqlDataReader["CurrentStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CurrentStock"]) : 0;
                                 getResponse.ReorderStock = _sqlDataReader["ReorderStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ReorderStock"]) : 0;
                                 getResponse.MaxStock = _sqlDataReader["OpeningStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["MaxStock"]) : 0;
-                                getResponse.LastPurRate = _sqlDataReader["LastPurRate"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["LastPurRate"]) : 0;
-                                getResponse.Amount = _sqlDataReader["Amount"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Amount"]) : 0;
+                                //getResponse.LastPurRate = _sqlDataReader["LastPurRate"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["LastPurRate"]) : 0;
+                                //getResponse.Amount = _sqlDataReader["Amount"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Amount"]) : 0;
                                 getResponse.CreatedAT = _sqlDataReader["CreatedAT"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["CreatedAT"]));
-                                getResponse.ExpiryDate = _sqlDataReader["ExpiryDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["ExpiryDate"]));
+                                //getResponse.ExpiryDate = _sqlDataReader["ExpiryDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["ExpiryDate"]));
                                 getResponse.IsActive = _sqlDataReader["IsActive"] != DBNull.Value? Convert.ToBoolean(_sqlDataReader["IsActive"]): true;
                                 response.itemreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+        public async Task<ReadInformationResponse> ItemTransReadInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.itemtransreadinformation = new List<ItemTransReadInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewItemTrans";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                ItemTransReadInformation getResponse = new ItemTransReadInformation();
+                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
+                                getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
+                                
+                                getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["CategorySub"] != DBNull.Value ? _sqlDataReader["CategorySub"].ToString() : string.Empty;
+                                getResponse.LastPurDate = _sqlDataReader["LastPurDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["LastPurDate"]));
+                                getResponse.Unit = _sqlDataReader["Unit"] != DBNull.Value ? _sqlDataReader["Unit"].ToString() : string.Empty;
+                                
+                                
+                                getResponse.CurrentStock = _sqlDataReader["CurrentStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CurrentStock"]) : 0;
+                                
+                                getResponse.LastPurRate = _sqlDataReader["LastPurRate"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["LastPurRate"]) : 0;
+                                getResponse.Amount = _sqlDataReader["Amount"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Amount"]) : 0;
+                                getResponse.OrderIssueDate = _sqlDataReader["OrderIssueDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["OrderIssueDate"]));
+                                getResponse.OrderRecDate = _sqlDataReader["OrderRecDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["OrderRecDate"]));
+                                getResponse.ExpiryDate = _sqlDataReader["ExpiryDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["ExpiryDate"]));
+                                getResponse.EntryGoDown = _sqlDataReader["EntryGoDown"] != DBNull.Value ? _sqlDataReader["EntryGoDown"].ToString() : string.Empty;
+                                response.itemtransreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+        public async Task<ReadInformationResponse> GDReadInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.gdreadinformation = new List<GDReadInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewGD";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                GDReadInformation getResponse = new GDReadInformation();
+                                getResponse.GDID = _sqlDataReader["GDID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["GDID"]) : 0;
+                                getResponse.GDName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
+                                getResponse.GDAddress = _sqlDataReader["GDAddress"] != DBNull.Value ? _sqlDataReader["GDAddress"].ToString() : string.Empty;
+                                getResponse.GDPhone = _sqlDataReader["GDPhone"] != DBNull.Value ? _sqlDataReader["GDPhone"].ToString() : string.Empty;
+                                
+                                response.gdreadinformation.Add(getResponse);
                             }
                         }
                         else
@@ -590,6 +819,110 @@ namespace InventoryManagement.RepositoryLayer
 
             return response;
         }
+        public async Task<ReadInformationResponse> ITCReadInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.itcreadinformation = new List<ITCReadInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewItemCount";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                ITCReadInformation getResponse = new ITCReadInformation();
+                                getResponse.Count = _sqlDataReader["Count"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Count"]) : 0;
+
+                                response.itcreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
+        public async Task<ReadInformationResponse> GDCReadInformation()
+        {
+            ReadInformationResponse response = new ReadInformationResponse();
+            response.gdcreadinformation = new List<GDCReadInformation>();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            //string nu = "null";
+            try
+            {
+                string StoreProcedure = "usp_ViewItemCount";
+                //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandTimeout = ConnectionTimeOut;
+                    //await _mySqlConnection.OpenAsync();
+                    await _sqlConnection.OpenAsync();
+                    //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    using (SqlDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (_sqlDataReader.HasRows)
+                        {
+                            while (await _sqlDataReader.ReadAsync())
+                            {
+                                GDCReadInformation getResponse = new GDCReadInformation();
+                                getResponse.Count = _sqlDataReader["Count"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Count"]) : 0;
+
+                                response.gdcreadinformation.Add(getResponse);
+                            }
+                        }
+                        else
+                        {
+                            response.Message = "No data Return";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return response;
+        }
         public async Task<ReadInformationResponse> SupCReadInformation()
         {
             ReadInformationResponse response = new ReadInformationResponse();
@@ -767,20 +1100,118 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
-                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
-                        sqlCommand.Parameters.AddWithValue("@SubCatname", request.SubCatname);
+                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
                         sqlCommand.Parameters.AddWithValue("@OpeningStock", request.OpeningStock);
-                        sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
                         sqlCommand.Parameters.AddWithValue("@ReorderStock", request.ReorderStock);
                         sqlCommand.Parameters.AddWithValue("@MaxStock", request.MaxStock);
-                        sqlCommand.Parameters.AddWithValue("@LastPurRate", request.LastPurRate);
-                        sqlCommand.Parameters.AddWithValue("@LastPurDate", request.LastPurDate);
                         sqlCommand.Parameters.AddWithValue("@PrefAlt", request.PrefAlt);
-                        sqlCommand.Parameters.AddWithValue("@Amount", request.Amount);
                         sqlCommand.Parameters.AddWithValue("@HScode", request.HScode);
                         sqlCommand.Parameters.AddWithValue("@IsActive", request.IsActive);
                         sqlCommand.Parameters.AddWithValue("@CreatedAT", request.CreatedAT);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "Information Not Update";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(ItemTransUpdateInformationRequest request)
+        {
+            UpdateInformationResponse resposne = new UpdateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_EditItemTrans";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
+                        sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
+                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@Unit", request.Unit);
+
+                        sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
+
+
+                        sqlCommand.Parameters.AddWithValue("@LastPurRate", request.LastPurRate);
+                        sqlCommand.Parameters.AddWithValue("@LastPurDate", request.LastPurDate);
+                        sqlCommand.Parameters.AddWithValue("@EntryGoDown", request.EntryGoDown);
+                        sqlCommand.Parameters.AddWithValue("@Amount", request.Amount);
+
+                        sqlCommand.Parameters.AddWithValue("@OrderRecDate", request.OrderRecDate);
+                        sqlCommand.Parameters.AddWithValue("@OrderIssueDate", request.OrderIssueDate);
                         sqlCommand.Parameters.AddWithValue("@ExpiryDate", request.ExpiryDate);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "Information Not Update";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(GDUpdateInformationRequest request)
+        {
+            UpdateInformationResponse resposne = new UpdateInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_EditGD";
+                    //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.UpdateInformation, _mySqlConnection))
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        sqlCommand.Parameters.AddWithValue("@GDID", request.GDID);
+                        sqlCommand.Parameters.AddWithValue("@GDName", request.GDName);
+                        sqlCommand.Parameters.AddWithValue("@GDPhone", request.GDPhone);
+                        sqlCommand.Parameters.AddWithValue("@GDAddress", request.GDAddress);
                         //await _mySqlConnection.OpenAsync();
                         await _sqlConnection.OpenAsync();
                         int Status = await sqlCommand.ExecuteNonQueryAsync();
@@ -964,6 +1395,51 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         //sqlCommand.Parameters.AddWithValue("?UserId", request.UserId);
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.Id);
+                        //await _mySqlConnection.OpenAsync();
+                        await _sqlConnection.OpenAsync();
+                        int Status = await sqlCommand.ExecuteNonQueryAsync();
+                        if (Status <= 0)
+                        {
+                            resposne.IsSuccess = false;
+                            resposne.Message = "UnSuccessful";
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resposne.IsSuccess = false;
+                resposne.Message = "Exception Message : " + ex.Message;
+            }
+            finally
+            {
+                //await _mySqlConnection.CloseAsync();
+                //await _mySqlConnection.DisposeAsync();
+                await _sqlConnection.CloseAsync();
+                await _sqlConnection.DisposeAsync();
+            }
+
+            return resposne;
+        }
+        public async Task<DeleteInformationResponse> GDDeleteInfo(DeleteInformationRequest request)
+        {
+            DeleteInformationResponse resposne = new DeleteInformationResponse();
+            resposne.IsSuccess = true;
+            resposne.Message = "Successful";
+            try
+            {
+                if (_sqlConnection != null)
+                {
+                    string StoreProcedure = "usp_deleteGD";
+
+                    using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                        sqlCommand.CommandTimeout = ConnectionTimeOut;
+                        //sqlCommand.Parameters.AddWithValue("?UserId", request.UserId);
+                        sqlCommand.Parameters.AddWithValue("@GDID", request.Id);
                         //await _mySqlConnection.OpenAsync();
                         await _sqlConnection.OpenAsync();
                         int Status = await sqlCommand.ExecuteNonQueryAsync();

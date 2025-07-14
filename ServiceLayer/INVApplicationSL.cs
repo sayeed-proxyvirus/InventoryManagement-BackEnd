@@ -30,6 +30,19 @@ namespace InventoryManagement.ServiceLayer
             return await _invApplicationRL.CreateInformation(request);
 
         }
+        public async Task<CreateInformationResponse> CreateInformation(ItemTransCreateInformationRequest request)
+        {
+
+            return await _invApplicationRL.CreateInformation(request);
+
+        }
+
+        public async Task<CreateInformationResponse> CreateInformation(GDCreateInformationRequest request)
+        {
+
+            return await _invApplicationRL.CreateInformation(request);
+
+        }
         public async Task<CreateInformationResponse> CreateInformation(SupplierInfoCreateInformationRequest request)
         {
 
@@ -62,6 +75,30 @@ namespace InventoryManagement.ServiceLayer
         {
 
             return await _invApplicationRL.ICReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> ItemTransReadInformation()
+        {
+
+            return await _invApplicationRL.ItemTransReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> ITCReadInformation()
+        {
+
+            return await _invApplicationRL.ITCReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> GDReadInformation()
+        {
+
+            return await _invApplicationRL.GDReadInformation();
+
+        }
+        public async Task<ReadInformationResponse> GDCReadInformation()
+        {
+
+            return await _invApplicationRL.GDCReadInformation();
 
         }
         public async Task<ReadInformationResponse> SupCReadInformation()
@@ -106,6 +143,18 @@ namespace InventoryManagement.ServiceLayer
 
 
         public async Task<UpdateInformationResponse> UpdateInformation(ItemUpdateInformationRequest request)
+        {
+
+            return await _invApplicationRL.UpdateInformation(request);
+
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(ItemTransUpdateInformationRequest request)
+        {
+
+            return await _invApplicationRL.UpdateInformation(request);
+
+        }
+        public async Task<UpdateInformationResponse> UpdateInformation(GDUpdateInformationRequest request)
         {
 
             return await _invApplicationRL.UpdateInformation(request);
@@ -156,6 +205,12 @@ namespace InventoryManagement.ServiceLayer
         {
 
             return await _invApplicationRL.IItemDeleteInfo(request);
+
+        }
+        public async Task<DeleteInformationResponse> GDDeleteInfo(DeleteInformationRequest request)
+        {
+
+            return await _invApplicationRL.GDDeleteInfo(request);
 
         }
         public async Task<DeleteInformationResponse> SupplierDeleteInfo(DeleteInformationRequest request)

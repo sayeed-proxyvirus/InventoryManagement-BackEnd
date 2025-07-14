@@ -6,24 +6,43 @@
         public string ItemName { get; set; }
         public int CatID { get; set; }
         public int SubCatID { get; set; }
-        public string Unit { get; set; }
 
         public int OpeningStock { get; set; }
-        public int CurrentStock { get; set; }
         public int ReorderStock { get; set; }
         public int MaxStock { get; set; }
 
-        public int LastPurRate { get; set; }
-        public DateOnly LastPurDate { get; set; }
-
         public string PrefAlt { get; set; }
-        public int Amount { get; set; }
         public string HScode { get; set; }
 
         public bool IsActive { get; set; }
         public DateOnly CreatedAT { get; set; }
+    }
+    public class ItemTransCreateInformationRequest 
+    {
+        public int ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public int CatID { get; set; }
+        public int SubCatID { get; set; }
+        public string Unit { get; set; }
+
+        public int CurrentStock { get; set; }
+        public int LastPurRate { get; set; }
+        public DateOnly LastPurDate { get; set; }
+        public string EntryGoDown { get; set; }
+        public int Amount { get; set; }
+        public DateOnly OrderIssueDate { get; set; }
+        public DateOnly OrderRecDate { get; set; }
         public DateOnly ExpiryDate { get; set; }
     }
+
+    public class GDCreateInformationRequest 
+    {
+        public int GDID { get; set; }
+        public string GDName { get; set; }
+        public string GDPhone { get; set; }
+        public string GDAddress { get; set; }
+    }
+
     public class SupplierInfoCreateInformationRequest
     {
         public int SupplierID { get; set; }
