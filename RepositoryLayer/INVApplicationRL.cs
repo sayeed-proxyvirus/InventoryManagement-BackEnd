@@ -686,7 +686,7 @@ namespace InventoryManagement.RepositoryLayer
                             {
                                 ItemCatInformation getResponse = new ItemCatInformation();
                                 getResponse.CategoryID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CategoryID"]) : 0;
-                                getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.CategoryName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
                                 response.itemcatreadinformation.Add(getResponse);
                             }
                         }
@@ -828,7 +828,7 @@ namespace InventoryManagement.RepositoryLayer
             //string nu = "null";
             try
             {
-                string StoreProcedure = "usp_ViewItemCount";
+                string StoreProcedure = "usp_ViewItemTransCount";
                 //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
                 using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
                 {
@@ -880,7 +880,7 @@ namespace InventoryManagement.RepositoryLayer
             //string nu = "null";
             try
             {
-                string StoreProcedure = "usp_ViewItemCount";
+                string StoreProcedure = "usp_ViewGDCount";
                 //using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadInformation, _mySqlConnection))
                 using (SqlCommand sqlCommand = new SqlCommand(StoreProcedure, _sqlConnection))
                 {
@@ -1254,7 +1254,7 @@ namespace InventoryManagement.RepositoryLayer
                         
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
-                        sqlCommand.Parameters.AddWithValue("@ItemCode", request.SupplierID);
+                        sqlCommand.Parameters.AddWithValue("@SupplierID", request.SupplierID);
                         sqlCommand.Parameters.AddWithValue("@SupplierName", request.SupplierName);
                         sqlCommand.Parameters.AddWithValue("@ContactNumber", request.ContactNumber);
                         sqlCommand.Parameters.AddWithValue("@Email", request.Email);
@@ -1717,8 +1717,5 @@ namespace InventoryManagement.RepositoryLayer
 
             return response;
         }
-
-
-
     }
 }
