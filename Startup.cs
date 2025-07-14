@@ -1,30 +1,24 @@
 using InventoryManagement.RepositoryLayer;
 using InventoryManagement.ServiceLayer;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
-using DotNetEnv;
+using Swashbuckle.AspNetCore.Swagger;
 
-namespace InventoryManagement
+namespace CRUD
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            // Load .env file
-            Env.Load();
         }
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -36,68 +30,14 @@ namespace InventoryManagement
 
             #endregion
 
-            #region JWT Authentication
+            #region swagger Implementation
 
-            var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+            services.AddSwaggerGen();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
-                };
-            });
-
-            #endregion
-
-            #region Swagger
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ERP API", Version = "v1" });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "Enter 'Bearer' followed by your JWT token in the text box below.\r\n\r\nExample: \"Bearer abcdef12345\""
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] {}
-                    }
-                });
-            });
-
-            #endregion
-
-            #region CORS
-            services.AddCors();
             #endregion
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -109,33 +49,38 @@ namespace InventoryManagement
 
             app.UseRouting();
 
-            // Add authentication before authorization
-            app.UseAuthentication();
             app.UseAuthorization();
 
-            #region CORS
+            #region Cors Implemetation
+
+            app.UseCors();
             app.UseCors(builder =>
             {
                 builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
             });
+
             #endregion
+
+
+
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            #region Swagger UI
+            #region Swagger Implementation
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ERP API V1");
-                c.RoutePrefix = string.Empty; // Swagger at root
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
 
             #endregion
         }

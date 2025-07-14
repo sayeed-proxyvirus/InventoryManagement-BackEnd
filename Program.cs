@@ -1,3 +1,4 @@
+using DotNetEnv;
 using InventoryManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace InventoryManagement
     {
         public static void Main(string[] args)
         {
+            Env.Load();
             CreateHostBuilder(args).Build().Run();
         }
 

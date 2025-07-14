@@ -97,7 +97,12 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-*.env
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
 
 # Chutzpah Test files
 _Chutzpah*
