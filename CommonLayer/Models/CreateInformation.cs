@@ -68,7 +68,6 @@
     public class CreateInformationResponse
     {
         public bool IsSuccess { get; set; }
-
         public string Message { get; set; }
     }
 }
