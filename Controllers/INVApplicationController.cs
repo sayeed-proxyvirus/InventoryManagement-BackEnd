@@ -58,6 +58,44 @@ public class INVApplicationController : ControllerBase
 
 
     [HttpPost]
+    [Route("ItemTransCreateInfo")]
+    public async Task<IActionResult> CreateInformation(ItemTransCreateInformationRequest request)
+    {
+        CreateInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.CreateInformation(request);
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpPost]
+    [Route("GDCreateInfo")]
+    public async Task<IActionResult> CreateInformation(GDCreateInformationRequest request)
+    {
+        CreateInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.CreateInformation(request);
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpPost]
     [Route("ItemCreateInfo")]
     public async Task<IActionResult> CreateInformation(IItemCreateInformationRequest request)
     {
@@ -167,6 +205,82 @@ public class INVApplicationController : ControllerBase
         {
 
             response = await _invApplicationSL.ICReadInformation();
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpGet]
+    [Route("ItemTransInfoView")]
+    public async Task<IActionResult> ItemTransReadInformation()
+    {
+        ReadInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.ItemTransReadInformation();
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpGet]
+    [Route("ItemTransCInfoView")]
+    public async Task<IActionResult> ITCReadInformation()
+    {
+        ReadInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.ITCReadInformation();
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpGet]
+    [Route("GDInfoView")]
+    public async Task<IActionResult> GDReadInformation()
+    {
+        ReadInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.GDReadInformation();
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpGet]
+    [Route("GDCInfoView")]
+    public async Task<IActionResult> GDCReadInformation()
+    {
+        ReadInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.GDCReadInformation();
 
         }
         catch (Exception ex)
@@ -321,6 +435,44 @@ public class INVApplicationController : ControllerBase
         return Ok(response);
     }
     [HttpPut]
+    [Route("ItemTransUpInfo")]
+    public async Task<IActionResult> UpdateInformation(ItemTransUpdateInformationRequest request)
+    {
+        UpdateInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.UpdateInformation(request);
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpPut]
+    [Route("GDUpInfo")]
+    public async Task<IActionResult> UpdateInformation(GDUpdateInformationRequest request)
+    {
+        UpdateInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.UpdateInformation(request);
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpPut]
     [Route("SupplierUpInfo")]
     public async Task<IActionResult> UpdateInformation(SupplierUpdateInformationRequest request)
     {
@@ -393,6 +545,25 @@ public class INVApplicationController : ControllerBase
         {
 
             response = await _invApplicationSL.IItemDeleteInfo(request);
+
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Message = "Exception Message : " + ex.Message;
+        }
+
+        return Ok(response);
+    }
+    [HttpPost]
+    [Route("GDDeleteInfo")]
+    public async Task<IActionResult> GDDeleteInfo(DeleteInformationRequest request)
+    {
+        DeleteInformationResponse response = null;
+        try
+        {
+
+            response = await _invApplicationSL.GDDeleteInfo(request);
 
         }
         catch (Exception ex)
