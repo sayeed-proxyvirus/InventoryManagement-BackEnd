@@ -78,7 +78,6 @@ namespace InventoryManagement.RepositoryLayer
                     sqlCommand.CommandTimeout = ConnectionTimeOut;
                     sqlCommand.Parameters.AddWithValue("@UserName", request.UserName);
                     sqlCommand.Parameters.AddWithValue("@HashedPassword", hashedPassword);
-                    sqlCommand.Parameters.AddWithValue("@FullName", request.FullName);
                     sqlCommand.Parameters.AddWithValue("@Email", request.Email);
 
                     await _sqlConnection.OpenAsync();
