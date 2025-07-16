@@ -119,8 +119,8 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
-                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
-                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
+                        sqlCommand.Parameters.AddWithValue("@SubCatName", request.SubCatName);
                         
                         sqlCommand.Parameters.AddWithValue("@OpeningStock", request.OpeningStock);
                         
@@ -178,8 +178,8 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
-                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
-                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
+                        sqlCommand.Parameters.AddWithValue("@SubCatName", request.SubCatName);
                         sqlCommand.Parameters.AddWithValue("@Unit", request.Unit);
                         
                         sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
@@ -444,17 +444,17 @@ namespace InventoryManagement.RepositoryLayer
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
                                 getResponse.HScode = _sqlDataReader["HScode"] != DBNull.Value ? _sqlDataReader["HScode"].ToString() : string.Empty;
                                 getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
-                                getResponse.SubCatName = _sqlDataReader["CategorySub"] != DBNull.Value ? _sqlDataReader["CategorySub"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["CategorySubName"] != DBNull.Value ? _sqlDataReader["CategorySubName"].ToString() : string.Empty;
                                 //getResponse.LastPurDate = _sqlDataReader["LastPurDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["LastPurDate"]));
-                                getResponse.Unit = _sqlDataReader["Unit"] != DBNull.Value ? _sqlDataReader["Unit"].ToString() : string.Empty;
-                                getResponse.PrefAlt = _sqlDataReader["PrefAlt"] != DBNull.Value ? _sqlDataReader["PrefAlt"].ToString() : string.Empty;
+                                //getResponse.Unit = _sqlDataReader["Unit"] != DBNull.Value ? _sqlDataReader["Unit"].ToString() : string.Empty;
+                                getResponse.PrefAlt = _sqlDataReader["PreferredAllt"] != DBNull.Value ? _sqlDataReader["PreferredAllt"].ToString() : string.Empty;
                                 getResponse.OpeningStock = _sqlDataReader["OpeningStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["OpeningStock"]) : 0;
                                 //getResponse.CurrentStock = _sqlDataReader["CurrentStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CurrentStock"]) : 0;
-                                getResponse.ReorderStock = _sqlDataReader["ReorderStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ReorderStock"]) : 0;
-                                getResponse.MaxStock = _sqlDataReader["OpeningStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["MaxStock"]) : 0;
+                                getResponse.ReorderStock = _sqlDataReader["ReorderLevel"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ReorderLevel"]) : 0;
+                                getResponse.MaxStock = _sqlDataReader["MaxStockLevel"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["MaxStockLevel"]) : 0;
                                 //getResponse.LastPurRate = _sqlDataReader["LastPurRate"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["LastPurRate"]) : 0;
                                 //getResponse.Amount = _sqlDataReader["Amount"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Amount"]) : 0;
-                                getResponse.CreatedAT = _sqlDataReader["CreatedAT"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["CreatedAT"]));
+                                getResponse.CreatedAT = _sqlDataReader["CreatedAt"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["CreatedAt"]));
                                 //getResponse.ExpiryDate = _sqlDataReader["ExpiryDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["ExpiryDate"]));
                                 getResponse.IsActive = _sqlDataReader["IsActive"] != DBNull.Value? Convert.ToBoolean(_sqlDataReader["IsActive"]): true;
                                 response.itemreadinformation.Add(getResponse);
@@ -511,7 +511,7 @@ namespace InventoryManagement.RepositoryLayer
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
                                 
                                 getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
-                                getResponse.SubCatName = _sqlDataReader["CategorySub"] != DBNull.Value ? _sqlDataReader["CategorySub"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["CategorySubName"] != DBNull.Value ? _sqlDataReader["CategorySubName"].ToString() : string.Empty;
                                 getResponse.LastPurDate = _sqlDataReader["LastPurDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["LastPurDate"]));
                                 getResponse.Unit = _sqlDataReader["Unit"] != DBNull.Value ? _sqlDataReader["Unit"].ToString() : string.Empty;
                                 
@@ -736,8 +736,8 @@ namespace InventoryManagement.RepositoryLayer
                             while (await _sqlDataReader.ReadAsync())
                             {
                                 SubCatInformation getResponse = new SubCatInformation();
-                                getResponse.SubCatID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
-                                getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.SubCatID = _sqlDataReader["SubCatID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
+                                getResponse.CategoryName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
                                 getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
                                 response.subcatreadinformation.Add(getResponse);
                             }
@@ -1099,8 +1099,8 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
-                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
-                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
+                        sqlCommand.Parameters.AddWithValue("@SubCatName", request.SubCatName);
                         sqlCommand.Parameters.AddWithValue("@OpeningStock", request.OpeningStock);
                         sqlCommand.Parameters.AddWithValue("@ReorderStock", request.ReorderStock);
                         sqlCommand.Parameters.AddWithValue("@MaxStock", request.MaxStock);
@@ -1151,8 +1151,8 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@ItemCode", request.ItemCode);
                         sqlCommand.Parameters.AddWithValue("@ItemName", request.ItemName);
-                        sqlCommand.Parameters.AddWithValue("@CatID", request.CatID);
-                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
+                        sqlCommand.Parameters.AddWithValue("@CatName", request.CatName);
+                        sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatName);
                         sqlCommand.Parameters.AddWithValue("@Unit", request.Unit);
 
                         sqlCommand.Parameters.AddWithValue("@CurrentStock", request.CurrentStock);
@@ -1612,7 +1612,6 @@ namespace InventoryManagement.RepositoryLayer
             response.subcatsearchinformationByCat = new List<SubCatSearchInformationByCat>();
             response.IsSuccess = true;
             response.Message = "Successful";
-            string nu = "null";
             try
             {
                 string StoreProcedure = "usp_ViewSubCatbyCat";
@@ -1621,7 +1620,7 @@ namespace InventoryManagement.RepositoryLayer
                 {
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                     sqlCommand.CommandTimeout = ConnectionTimeOut;
-                    sqlCommand.Parameters.AddWithValue("@CategoryName", request.Name);
+                    sqlCommand.Parameters.AddWithValue("@CategoryID", request.ID);
                     //await _mySqlConnection.OpenAsync();
                     await _sqlConnection.OpenAsync();
                     //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
@@ -1634,7 +1633,7 @@ namespace InventoryManagement.RepositoryLayer
                                 SubCatSearchInformationByCat getResponse = new SubCatSearchInformationByCat();
                                 ///getResponse.Id = _sqlDataReader["Id"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Id"]) : 0;
                                 getResponse.SubCatID = _sqlDataReader["SubCatID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
-                                //getResponse.CategoryName = _sqlDataReader["SupplierName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.CategoryName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
                                 getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
 
                                 response.subcatsearchinformationByCat.Add(getResponse);
@@ -1677,7 +1676,7 @@ namespace InventoryManagement.RepositoryLayer
                 {
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                     sqlCommand.CommandTimeout = ConnectionTimeOut;
-                    sqlCommand.Parameters.AddWithValue("@SubCatName", request.Name);
+                    sqlCommand.Parameters.AddWithValue("@SubCatID", request.ID);
                     //await _mySqlConnection.OpenAsync();
                     await _sqlConnection.OpenAsync();
                     //using (DbDataReader _sqlDataReader = await sqlCommand.ExecuteReaderAsync())
@@ -1688,8 +1687,24 @@ namespace InventoryManagement.RepositoryLayer
                             while (await _sqlDataReader.ReadAsync())
                             {
                                 ItemSearchInformationByName getResponse = new ItemSearchInformationByName();
+                                getResponse.ItemID = _sqlDataReader["ItemID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemID"]) : 0;
                                 getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
+                                getResponse.HScode = _sqlDataReader["HScode"] != DBNull.Value ? _sqlDataReader["HScode"].ToString() : string.Empty;
+                                getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.SubCatName = _sqlDataReader["CategorySubName"] != DBNull.Value ? _sqlDataReader["CategorySubName"].ToString() : string.Empty;
+                                //getResponse.LastPurDate = _sqlDataReader["LastPurDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["LastPurDate"]));
+                                //getResponse.Unit = _sqlDataReader["Unit"] != DBNull.Value ? _sqlDataReader["Unit"].ToString() : string.Empty;
+                                getResponse.PrefAlt = _sqlDataReader["PreferredAllt"] != DBNull.Value ? _sqlDataReader["PreferredAllt"].ToString() : string.Empty;
+                                getResponse.OpeningStock = _sqlDataReader["OpeningStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["OpeningStock"]) : 0;
+                                //getResponse.CurrentStock = _sqlDataReader["CurrentStock"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CurrentStock"]) : 0;
+                                getResponse.ReorderStock = _sqlDataReader["ReorderLevel"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ReorderLevel"]) : 0;
+                                getResponse.MaxStock = _sqlDataReader["MaxStockLevel"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["MaxStockLevel"]) : 0;
+                                //getResponse.LastPurRate = _sqlDataReader["LastPurRate"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["LastPurRate"]) : 0;
+                                //getResponse.Amount = _sqlDataReader["Amount"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Amount"]) : 0;
+                                getResponse.CreatedAT = _sqlDataReader["CreatedAt"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["CreatedAt"]));
+                                //getResponse.ExpiryDate = _sqlDataReader["ExpiryDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["ExpiryDate"]));
+                                getResponse.IsActive = _sqlDataReader["IsActive"] != DBNull.Value ? Convert.ToBoolean(_sqlDataReader["IsActive"]) : true;
 
                                 response.itemsearchInformationByName.Add(getResponse);
                             }

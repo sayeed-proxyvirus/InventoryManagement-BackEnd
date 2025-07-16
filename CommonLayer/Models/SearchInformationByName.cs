@@ -2,7 +2,7 @@
 {
     public class SearchInformationByNameRequest
     {
-        public string Name { get; set; }
+        public int ID { get; set; }
     }
 
     public class SearchInformationByNameResponse
@@ -18,9 +18,23 @@
     }
     public class ItemSearchInformationByName
     {
+        public int ItemID { get; set; }
         public int ItemCode { get; set; }
         public string ItemName { get; set; }
-     }
+        public string CatName { get; set; }
+        public string SubCatName { get; set; }
+        //public string Unit { get; set; }
+
+        public int OpeningStock { get; set; }
+        public int ReorderStock { get; set; }
+        public int MaxStock { get; set; }
+
+        public string PrefAlt { get; set; }
+        public string HScode { get; set; }
+
+        public bool IsActive { get; set; }
+        public DateOnly CreatedAT { get; set; }
+    }
         //public class SupplierSearchInformationByName
         //{
         //    public int SupplierID { get; set; }
@@ -37,7 +51,7 @@
         public class SubCatSearchInformationByCat
     {
         public int SubCatID { get; set; }
-        //public string CategoryName { get; set; }
+        public string CategoryName { get; set; }
         public string SubCatName { get; set; }
     }
 }
