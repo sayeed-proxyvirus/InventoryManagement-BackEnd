@@ -183,10 +183,10 @@ namespace InventoryManagement.ServiceLayer
 
 
 
-        public async Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request)
+        public async Task<SearchInformationByNameResponse> ItemSearchInformationByCat(SearchInformationByNameRequest request)
         {
 
-            return await _invApplicationRL.ItemSearchInformationByName(request);
+            return await _invApplicationRL.ItemSearchInformationByCat(request);
 
         }
 

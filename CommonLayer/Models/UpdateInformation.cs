@@ -2,7 +2,7 @@
 {
     public class ItemUpdateInformationRequest
     {
-        public int ItemCode { get; set; }
+        public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public string CatName { get; set; }
         public string SubCatName { get; set; }
@@ -61,7 +61,7 @@
     public class SubCatUpdateInformationRequest
     {
         public int SubCatID { get; set; }
-        public string CategoryName { get; set; }
+        public int CategoryID { get; set; }
         public string SubCatName { get; set; }
     }
     public class UpdateInformationResponse

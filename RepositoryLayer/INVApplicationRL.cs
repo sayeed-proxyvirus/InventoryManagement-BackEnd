@@ -382,7 +382,7 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
-                        sqlCommand.Parameters.AddWithValue("@CategoryName", request.CategoryName);
+                        sqlCommand.Parameters.AddWithValue("@CategoryID", request.CategoryID);
                         sqlCommand.Parameters.AddWithValue("@SubCatName", request.SubCatName);
 
                         //await _mySqlConnection.OpenAsync();
@@ -440,7 +440,7 @@ namespace InventoryManagement.RepositoryLayer
                             while (await _sqlDataReader.ReadAsync())
                             {
                                 ItemReadInformation getResponse = new ItemReadInformation();
-                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
+                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? _sqlDataReader["ItemCode"].ToString() : string.Empty;
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
                                 getResponse.HScode = _sqlDataReader["HScode"] != DBNull.Value ? _sqlDataReader["HScode"].ToString() : string.Empty;
                                 getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
@@ -507,7 +507,7 @@ namespace InventoryManagement.RepositoryLayer
                             while (await _sqlDataReader.ReadAsync())
                             {
                                 ItemTransReadInformation getResponse = new ItemTransReadInformation();
-                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
+                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? _sqlDataReader["ItemCode"].ToString() : string.Empty;
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
                                 
                                 getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
@@ -737,7 +737,7 @@ namespace InventoryManagement.RepositoryLayer
                             {
                                 SubCatInformation getResponse = new SubCatInformation();
                                 getResponse.SubCatID = _sqlDataReader["SubCatID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
-                                getResponse.CategoryName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.CategoryID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CategoryID"]) : 0;
                                 getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
                                 response.subcatreadinformation.Add(getResponse);
                             }
@@ -1345,7 +1345,7 @@ namespace InventoryManagement.RepositoryLayer
                         sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                         sqlCommand.CommandTimeout = ConnectionTimeOut;
                         sqlCommand.Parameters.AddWithValue("@SubCatID", request.SubCatID);
-                        sqlCommand.Parameters.AddWithValue("@CategoryName", request.CategoryName);
+                        sqlCommand.Parameters.AddWithValue("@CategoryID", request.CategoryID);
                         sqlCommand.Parameters.AddWithValue("@SubCatName", request.SubCatName);
                         //await _mySqlConnection.OpenAsync();
                         await _sqlConnection.OpenAsync();
@@ -1633,7 +1633,7 @@ namespace InventoryManagement.RepositoryLayer
                                 SubCatSearchInformationByCat getResponse = new SubCatSearchInformationByCat();
                                 ///getResponse.Id = _sqlDataReader["Id"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["Id"]) : 0;
                                 getResponse.SubCatID = _sqlDataReader["SubCatID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["SubCatID"]) : 0;
-                                getResponse.CategoryName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
+                                getResponse.CategoryID = _sqlDataReader["CategoryID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["CategoryID"]) : 0;
                                 getResponse.SubCatName = _sqlDataReader["SubCatName"] != DBNull.Value ? _sqlDataReader["SubCatName"].ToString() : string.Empty;
 
                                 response.subcatsearchinformationByCat.Add(getResponse);
@@ -1661,10 +1661,10 @@ namespace InventoryManagement.RepositoryLayer
 
             return response;
         }
-        public async Task<SearchInformationByNameResponse> ItemSearchInformationByName(SearchInformationByNameRequest request)
+        public async Task<SearchInformationByNameResponse> ItemSearchInformationByCat(SearchInformationByNameRequest request)
         {
             SearchInformationByNameResponse response = new SearchInformationByNameResponse();
-            response.itemsearchInformationByName = new List<ItemSearchInformationByName>();
+            response.itemsearchInformationByCat = new List<ItemSearchInformationByCat>();
             response.IsSuccess = true;
             response.Message = "Successful";
             string nu = "null";
@@ -1686,9 +1686,9 @@ namespace InventoryManagement.RepositoryLayer
                         {
                             while (await _sqlDataReader.ReadAsync())
                             {
-                                ItemSearchInformationByName getResponse = new ItemSearchInformationByName();
+                                ItemSearchInformationByCat getResponse = new ItemSearchInformationByCat();
                                 getResponse.ItemID = _sqlDataReader["ItemID"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemID"]) : 0;
-                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? Convert.ToInt32(_sqlDataReader["ItemCode"]) : 0;
+                                getResponse.ItemCode = _sqlDataReader["ItemCode"] != DBNull.Value ? _sqlDataReader["ItemCode"].ToString() : string.Empty;
                                 getResponse.ItemName = _sqlDataReader["ItemName"] != DBNull.Value ? _sqlDataReader["ItemName"].ToString() : string.Empty;
                                 getResponse.HScode = _sqlDataReader["HScode"] != DBNull.Value ? _sqlDataReader["HScode"].ToString() : string.Empty;
                                 getResponse.CatName = _sqlDataReader["CategoryName"] != DBNull.Value ? _sqlDataReader["CategoryName"].ToString() : string.Empty;
@@ -1706,7 +1706,7 @@ namespace InventoryManagement.RepositoryLayer
                                 //getResponse.ExpiryDate = _sqlDataReader["ExpiryDate"] == DBNull.Value ? DateOnly.FromDateTime(Convert.ToDateTime(null)) : DateOnly.FromDateTime(Convert.ToDateTime(_sqlDataReader["ExpiryDate"]));
                                 getResponse.IsActive = _sqlDataReader["IsActive"] != DBNull.Value ? Convert.ToBoolean(_sqlDataReader["IsActive"]) : true;
 
-                                response.itemsearchInformationByName.Add(getResponse);
+                                response.itemsearchInformationByCat.Add(getResponse);
                             }
                         }
                         else

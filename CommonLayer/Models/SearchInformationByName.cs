@@ -9,17 +9,17 @@
     {
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
-        public List<ItemSearchInformationByName> itemsearchInformationByName { get; set; }
+        public List<ItemSearchInformationByCat> itemsearchInformationByCat { get; set; }
         //public SupplierSearchInformationByName suppliersearchinformationByName { get; set; }
         //public ItemCatSearchInformationByName itemcatsearchinformationByName { get; set; }
         
         public List<SubCatSearchInformationByCat> subcatsearchinformationByCat { get; set; }
 
     }
-    public class ItemSearchInformationByName
+    public class ItemSearchInformationByCat
     {
         public int ItemID { get; set; }
-        public int ItemCode { get; set; }
+        public string ItemCode { get; set; }
         public string ItemName { get; set; }
         public string CatName { get; set; }
         public string SubCatName { get; set; }
@@ -51,7 +51,7 @@
         public class SubCatSearchInformationByCat
     {
         public int SubCatID { get; set; }
-        public string CategoryName { get; set; }
+        public int CategoryID { get; set; }
         public string SubCatName { get; set; }
     }
 }

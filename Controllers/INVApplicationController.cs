@@ -655,13 +655,13 @@ public class INVApplicationController : ControllerBase
     }
     [HttpPost]
     [Route("ItemSearchbyCatInfo")]
-    public async Task<IActionResult> ItemSearchInformationByName(SearchInformationByNameRequest request)
+    public async Task<IActionResult> ItemSearchInformationByCat(SearchInformationByNameRequest request)
     {
         SearchInformationByNameResponse response = null;
         try
         {
 
-            response = await _invApplicationSL.ItemSearchInformationByName(request);
+            response = await _invApplicationSL.ItemSearchInformationByCat(request);
 
         }
         catch (Exception ex)
